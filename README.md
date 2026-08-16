@@ -1,26 +1,38 @@
 # RAZE OS Home
 
+![RAZE OS Home](screenshots/11-cover%20image.png)
+
 ## A Real Smart Home Operating System — Not Another Dashboard
 
 RAZE OS Home is a complete Android-based smart home operating system designed for a dedicated wall-mounted kiosk.
 
 It was built for one real household and evolved into a system that connects smart devices, sensors, cameras, room context, automation, security, autonomous reasoning, action verification and household learning inside one persistent Android application.
 
-This repository is a **public showcase and technical due-diligence package**. The production source code is intentionally not published here.
-
 > **The interesting part is not that it can turn a light on. The interesting part is that the house can give the system enough context to decide when it should.**
+
+This repository is a **public showcase and buyer due-diligence package**. The production source code is intentionally not published here.
 
 ---
 
-## What Is Being Sold?
+## Acquisition
 
-The complete project and production source code are available for an **exclusive acquisition**.
+The complete project and production source code are available as an **exclusive acquisition**.
 
-The intended transfer allows the buyer to modify, rebrand, commercialize, redistribute or sell the resulting product as they choose. The seller does not intend to retain a continuing ownership claim or reuse the sold project after an exclusive transfer. Final legal terms are established in the purchase agreement.
-
-The public repository does not contain production credentials, private configuration, signing keys or the production source tree.
+The intended transfer is the complete project rather than a license to use a shared codebase. The buyer may rebrand, modify, commercialize, redistribute or resell the resulting product. After an exclusive transfer, the seller does not intend to retain an ownership claim over or continue commercial development of the sold project. Final ownership, IP assignment and transfer terms are established in the purchase agreement.
 
 **Asking price: US$12,500**
+
+**Acquisition contact:** `team@obliviongarage.com`
+
+For serious acquisition inquiries, the public showcase can be used for initial technical review. A deeper technical demonstration and source-code due diligence can be arranged privately.
+
+---
+
+## About the Developer
+
+RAZE OS Home was independently developed by Arif Berkay Zamur. During development, the project was associated with **OblivionGarage Technology & IT Solutions**, a former personal business. The business is now closed; the name is retained in this showcase only as historical project/developer context and does not represent an active company or current operating entity.
+
+The project was originally built for the developer's own household rather than as a commercial product. It has therefore not previously been commercially distributed, licensed or sold to another party.
 
 ---
 
@@ -30,7 +42,7 @@ Most smart-home applications are dashboards: the user tells the system what to d
 
 RAZE OS Home was developed around a broader idea: the home can observe context, connect information from different systems, make supported decisions, act, verify the result and learn from user feedback.
 
-The architecture deliberately separates deterministic physical-world truth from reasoning. Sensors and device integrations establish household state; reasoning evaluates context and supported capabilities; actions pass through the existing action infrastructure; results can be verified; feedback can become scoped decision knowledge.
+The architecture separates deterministic physical-world truth from reasoning. Sensors and integrations establish household state; reasoning evaluates context and supported capabilities; actions pass through the existing action infrastructure; results can be verified; feedback can become scoped decision knowledge.
 
 ```text
 Real household signals
@@ -64,9 +76,9 @@ The current implementation has reached the **reasoning + real action + verificat
 
 The current household environment contains approximately **48 physical devices** across the integrated ecosystem.
 
-The production Android project is roughly **600 source/project files** in size and was developed incrementally through sustained real-world use.
+The production Android project contains roughly **600 source/project files** and was developed incrementally through sustained real-world use.
 
-The project has not previously been commercially distributed. There are no fabricated customer, revenue or market-adoption claims behind this listing.
+There are no fabricated customer, revenue, market-share or adoption claims behind this listing.
 
 ---
 
@@ -152,9 +164,9 @@ The knowledge layer can influence future reasoning without replacing determinist
 
 The application is designed for a continuously available wall-mounted Android display.
 
-The showcase includes surfaces for eWeLink, Camera, Xiaomi, Dreame, Finance/household tracking, Household Learning, Telegram/security information, autonomous reasoning and agent/system functionality.
+The current visual surface includes dedicated areas for eWeLink, Camera, Xiaomi, Dreame, Finance/household tracking, Household Learning, Telegram/security information, autonomous reasoning and agent/system functionality.
 
-See `screenshots/` and `RazeOsHome.pptx` for the visual product overview.
+The cover image and numbered screenshots provide a visual tour of these surfaces. The presentation deck contains an additional product overview.
 
 ---
 
@@ -170,23 +182,42 @@ This project already contains the foundation for Android kiosk operation, IoT in
 
 ---
 
-## Public Showcase Contents
+## Public Showcase
 
-- [Features](FEATURES.md)
-- [Architecture](ARCHITECTURE.md)
-- [Data and Knowledge](DATA_AND_KNOWLEDGE.md)
-- [Kiosk and UI](KIOSK_AND_UI.md)
-- [Technical Overview](TECHNICAL_OVERVIEW.md)
-- [Smart Home Integrations](SMART_HOME_INTEGRATIONS.md)
-- [Real-World Scenarios](REAL_WORLD_SCENARIOS.md)
-- [Buyer Due Diligence](BUYER_DUE_DILIGENCE.md)
-- [Security](SECURITY.md)
-- [Sale](SALE.md)
-- [Presentation](RazeOsHome.pptx)
+| Document | Purpose |
+|---|---|
+| [Features](FEATURES.md) | Product capabilities and major workflows |
+| [Architecture](ARCHITECTURE.md) | System architecture and component relationships |
+| [Data & Knowledge](DATA_AND_KNOWLEDGE.md) | Event, reasoning, feedback and knowledge flow |
+| [Kiosk & UI](KIOSK_AND_UI.md) | Android kiosk and visual product structure |
+| [Technical Overview](TECHNICAL_OVERVIEW.md) | Technology and implementation overview |
+| [Smart Home Integrations](SMART_HOME_INTEGRATIONS.md) | Integration-by-integration capabilities |
+| [Real-World Scenarios](REAL_WORLD_SCENARIOS.md) | Actual household workflows |
+| [Buyer Due Diligence](BUYER_DUE_DILIGENCE.md) | What a technical buyer should verify |
+| [Buyer FAQ](BUYER_FAQ.md) | Commercial and technical questions answered |
+| [Security](SECURITY.md) | Security architecture and public-repo boundaries |
+| [Visual Showcase](VISUAL_SHOWCASE.md) | Screenshot-by-screenshot visual guide |
+| [Sale](SALE.md) | Acquisition scope and transaction notes |
+| [Presentation](RazeOsHome.pptx) | Product presentation |
+| [Contact](CONTACT.md) | Acquisition contact and process |
 
 ## Screenshots
 
-See `screenshots/` for current application captures.
+The screenshot set is organized around the product's major surfaces:
+
+1. Home
+2. eWeLink
+3. Camera
+4. Xiaomi
+5. Dreame
+6. Finance
+7. Household Learning
+8. Telegram
+9. Autonomous Reasoning
+10. Agent
+11. Cover image
+
+Open [`VISUAL_SHOWCASE.md`](VISUAL_SHOWCASE.md) for context on what each screen demonstrates.
 
 ---
 
