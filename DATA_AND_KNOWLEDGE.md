@@ -1,135 +1,117 @@
-# Data and Knowledge
+# RAZE OS Home — Data, Events and Knowledge
 
-Raze OS Home uses persisted events and structured knowledge to maintain continuity between reasoning sessions.
+RAZE OS Home treats household events, reasoning decisions and learned information as different but connected forms of data.
+
+The goal is continuity: a decision made today can remain understandable tomorrow, and user feedback can become useful to future reasoning without becoming an uncontrolled household rule.
+
+---
 
 ## Home Events
 
-Household and reasoning events can be persisted and later consumed by UI and reasoning components.
+Household and reasoning events are persisted through the application's event architecture.
 
-This prevents the UI from having to regenerate historical reasoning information through an LLM.
+A reasoning action event can retain structured metadata such as:
 
----
-
-## Reasoning Metadata
-
-Reasoning action events can retain metadata such as:
-
-- what
-- why
-- evidence
-- result
+- what the system did
+- why it acted
+- evidence available at decision time
+- execution result
+- verification result
 - confidence
-- correlation
-- timestamp
 - room
-- action
+- action key
+- correlation/provenance
+- timestamp
+
+This makes the event independently inspectable after the action has finished.
 
 ---
 
-## Decision Knowledge
+## Reasoning → UI
 
-Decision knowledge represents user-confirmed or user-corrected information associated with a specific reasoning context.
+The production flow is conceptually:
+
+```text
+Reasoning Action
+      ↓
+Home Event
+      ↓
+Reasoning Event Mapper
+      ↓
+Household Learning Insight
+      ↓
+Existing Timeline / Bubble UI
+```
+
+The UI does not need to call an LLM merely to recreate an old reasoning card.
 
 ---
 
 ## Provenance
 
-Knowledge and feedback should retain a relationship to the original reasoning event.
+Feedback must remain attached to the decision that generated it.
 
-Relevant identifiers include:
+Relevant provenance dimensions include:
+
+- reasoning task
+- correlation ID
+- original event
+- room
+- action key
+- timestamp
+
+This prevents a correction about one action from accidentally being applied to an unrelated action.
+
+---
+
+## Decision Knowledge
+
+Decision knowledge represents information learned from the user's interaction with autonomous decisions.
+
+It can represent confirmation, contradiction, contextual preferences and other structured information produced by the feedback pipeline.
+
+The knowledge layer is intentionally separate from deterministic household truth.
 
 ```text
-reasoningTaskId
-correlationId
-provenanceEventId
-roomKey
-actionKey
-timestamp
-This makes the origin of learned information traceable.
+Current sensor/device state
+        ≠
+Learned decision knowledge
+```
 
-UI Data Flow
-Persisted HomeEvent
-       ↓
-Reasoning Event Mapper
-       ↓
-Household Learning Insight
-       ↓
-Existing Timeline Adapter
-       ↓
-Household Learning Card
-
-No new reasoning database is required for UI rendering.
-
-
+Knowledge can influence future reasoning, but it should not rewrite what a physical sensor currently reports.
 
 ---
 
+## Feedback Lifecycle
 
-# 9. `SECURITY.md`
+A typical correction can follow this path:
 
+```text
+User reviews reasoning card
+        ↓
+Correct / Incorrect
+        ↓
+Original reasoning context recovered
+        ↓
+Natural-language feedback (when needed)
+        ↓
+Feedback processing pipeline
+        ↓
+Structured decision knowledge
+        ↓
+Future reasoning lookup
+```
 
-Bunu özellikle koy. Alıcıya profesyonel görünür.
-
-
-```markdown
-# Security and Data Handling
-
-
-## Source Code
-
-
-This public repository does not contain the production source code.
-
-
-The repository is intended as a product showcase and technical overview.
-
-
----
-
-
-## Credentials
-
-
-Production credentials, API keys, tokens, private configuration files, Android signing keys, and device-specific secrets are intentionally excluded.
-
+The system is designed to keep this knowledge scoped around the relevant room/action/reasoning context.
 
 ---
 
+## Why This Matters
 
-## Device Information
+A conventional automation system often stores a rule such as:
 
+> If X happens, do Y.
 
-Device identifiers and household-specific configuration should not be exposed in public documentation.
+RAZE OS Home can additionally retain the context of why an autonomous decision was made, whether the expected result was verified, and what the user subsequently thought about that decision.
 
-
-Screenshots and examples should use sanitized or fictional identifiers where appropriate.
-
-
----
-
-
-## AI Safety Boundaries
-
-
-The reasoning layer is not intended to override deterministic sensor truth.
-
-
-AI-generated reasoning cannot independently:
-
-
-- redefine physical sensor state
-- invent device capabilities
-- authorize arbitrary actions
-- replace deterministic device integrations
-
-
-Actions remain constrained by the application's existing capabilities and policy architecture.
-
-
----
-
-
-## Production Configuration
-
-
-The production project contains environment- and deployment-specific configuration that is intentiona
+That provides a foundation for an adaptive household system rather than a static collection of automation rules.
