@@ -1,209 +1,197 @@
-# Raze OS Home
+# RAZE OS Home
 
-## Autonomous Smart Home Operating System for Android Kiosks
+## A Real Smart Home Operating System — Not Another Dashboard
 
-Raze OS Home is a dedicated Android-based smart home control and automation platform designed for wall-mounted kiosk devices.
+RAZE OS Home is a complete Android-based smart home operating system designed for a dedicated wall-mounted kiosk.
 
-The project combines smart home control, real-time device and sensor monitoring, camera-based presence information, room awareness, automation, household activity analysis, autonomous reasoning, verification, learning, and user feedback into a single persistent interface.
+It was built for one real household and evolved into a system that connects smart devices, sensors, cameras, room context, automation, security, autonomous reasoning, action verification and household learning inside one persistent Android application.
 
-Unlike a conventional smart home dashboard, Raze OS Home is designed to operate as a dedicated home interface that can continuously observe available household signals, reason about context, execute supported actions, verify outcomes, and retain structured knowledge from user feedback.
+This repository is a **public showcase and technical due-diligence package**. The production source code is intentionally not published here.
 
----
-
-## What Makes Raze OS Home Different
-
-Raze OS Home is built around a separation between deterministic household truth and the reasoning layer.
-
-Sensors and deterministic device integrations remain the source of truth for physical state.
-
-The reasoning layer does not directly redefine sensor truth, invent device capabilities, or authorize actions outside the system's available capabilities.
-
-This separation allows autonomous reasoning to operate without turning the AI layer into an uncontrolled source of household state.
+> **The interesting part is not that it can turn a light on. The interesting part is that the house can give the system enough context to decide when it should.**
 
 ---
 
-## Core Capabilities
+## What Is Being Sold?
 
-- Android-based dedicated smart home kiosk
-- Persistent wall-mounted home interface
-- Smart device monitoring and control
-- eWeLink device integration
-- Xiaomi device integration
-- Camera and presence-related signals
-- Room-level household state
-- Real-time device status
-- Household activity monitoring
-- Financial / household tracking interfaces
-- Learned household patterns
-- Autonomous reasoning layer
-- Action execution and verification
-- Reasoning event persistence
-- Evidence-based reasoning explanations
-- Confidence information
-- User feedback on autonomous decisions
-- Structured learning from feedback
-- Narrow-scope decision knowledge
-- Knowledge lifecycle management
-- Persistent reasoning and household events
+The complete project and production source code are available for an **exclusive acquisition**.
+
+The intended transfer allows the buyer to modify, rebrand, commercialize, redistribute or sell the resulting product as they choose. The seller does not intend to retain a continuing ownership claim or reuse the sold project after an exclusive transfer. Final legal terms are established in the purchase agreement.
+
+The public repository does not contain production credentials, private configuration, signing keys or the production source tree.
+
+**Asking price: US$12,500**
 
 ---
 
-## User Interface
+## Why It Is Different
 
-The kiosk interface is organized into dedicated pages for different areas of the household system.
+Most smart-home applications are dashboards: the user tells the system what to do and the system executes it.
 
-The current page topology includes:
+RAZE OS Home was developed around a broader idea: the home can observe context, connect information from different systems, make supported decisions, act, verify the result and learn from user feedback.
 
-1. eWeLink
-2. Camera
-3. Xiaomi
-4. Dreame
-5. Finance / Household Tracking
-6. Household Learning
-7. Telegram Archive
-8. Autonomous Reasoning
+The architecture deliberately separates deterministic physical-world truth from reasoning. Sensors and device integrations establish household state; reasoning evaluates context and supported capabilities; actions pass through the existing action infrastructure; results can be verified; feedback can become scoped decision knowledge.
 
-The exact UI and device capabilities depend on the connected household environment.
+```text
+Real household signals
+        ↓
+Deterministic household state
+        ↓
+Context + evidence + knowledge
+        ↓
+Autonomous reasoning
+        ↓
+Supported action
+        ↓
+Real device
+        ↓
+Verification
+        ↓
+Persisted event
+        ↓
+User feedback
+        ↓
+Scoped knowledge
+        ↓
+Future reasoning
+```
+
+The current implementation has reached the **reasoning + real action + verification + learning** stage.
 
 ---
 
-## Autonomous Reasoning
+## Real-World Scale
 
-Raze OS Home contains an autonomous reasoning architecture designed to evaluate available evidence and context before taking supported actions.
+The current household environment contains approximately **48 physical devices** across the integrated ecosystem.
 
-A reasoning cycle can involve:
+The production Android project is roughly **600 source/project files** in size and was developed incrementally through sustained real-world use.
 
-1. Observing available household signals
-2. Building a deterministic household state
-3. Evaluating contextual information
-4. Considering existing decision knowledge
-5. Selecting an eligible action
-6. Executing the action
-7. Verifying the resulting state
-8. Persisting the reasoning event
-9. Presenting the result to the user through the household learning interface
+The project has not previously been commercially distributed. There are no fabricated customer, revenue or market-adoption claims behind this listing.
 
-Reasoning events can include:
+---
 
-- action
-- explanation
-- evidence
-- confidence
-- execution result
-- verification result
-- provenance information
+## Working Integration Surface
+
+The current implementation includes working integrations and workflows around:
+
+- eWeLink
+- Sonoff devices
+- cameras / RTSP workflows
+- human / presence detection
+- Telegram
+- Xiaomi
+- Dreame
+- voice-assistant functionality
+- security workflows
+- occupancy / room awareness
+- automation
+- autonomous reasoning
+- action verification
+- household learning
+- natural-language feedback
+- structured decision knowledge
+
+The exact behavior of a feature depends on the connected hardware, permissions and configuration.
+
+---
+
+## Five Real Household Examples
+
+### Entrance security
+
+Human detection at a configured entrance can trigger camera evidence and a Telegram notification.
+
+### Contextual automation
+
+Where the required infrastructure exists, humidity can be evaluated together with other device-state context before an automation decision is made.
+
+### Empty room + active device
+
+Room occupancy context and active device state can become combined evidence for a supported autonomous action.
+
+### Dreame cleaning timing
+
+Room/door context can cause cleaning to be delayed while relevant doors are closed, with the system reassessing for a better opportunity later.
+
+### Overnight security memory
+
+A configured exterior-door event during night hours can be retained as security context and surfaced later.
+
+These are examples from the actual household environment, not hypothetical feature ideas.
+
+---
+
+## Security
+
+The application includes working security flows around:
+
+- face recognition / authorization
+- face verification for sensitive operations
+- camera human detection
+- Telegram security notifications
+- image/evidence delivery
+- emergency countdowns
+- phone-call flows
+- cancellation evidence
+- security context
+- occupancy/presence
 
 ---
 
 ## Learning and Feedback
 
-Users can review autonomous decisions and provide feedback.
+Autonomous decisions can be reviewed by the user.
 
-A decision can be marked as correct or incorrect.
+A correct decision can be confirmed. An incorrect decision can request a natural-language explanation. The feedback is linked to the original reasoning context and processed into structured, narrow-scope decision knowledge.
 
-Incorrect decisions can optionally receive natural-language feedback from the user.
-
-The feedback pipeline converts the user's explanation into structured knowledge while maintaining a narrow scope around the original reasoning context.
-
-Knowledge can progress through lifecycle states such as:
-
-LEARNED → CONFIRMED → CONTRADICTED → DEPRECATED
-
-The purpose is not to turn a single user statement into a global household rule.
-
-Instead, learned information remains associated with relevant context such as:
-
-- room
-- action
-- trigger
-- reasoning task
-- correlation
-- provenance
+The knowledge layer can influence future reasoning without replacing deterministic sensor truth.
 
 ---
 
-## Architecture
+## Kiosk Experience
 
-The project is structured into separate layers for:
+The application is designed for a continuously available wall-mounted Android display.
 
-- deterministic household state
-- device integrations
-- event persistence
-- reasoning
-- action execution
-- verification
-- knowledge
-- feedback
-- user interface
+The showcase includes surfaces for eWeLink, Camera, Xiaomi, Dreame, Finance/household tracking, Household Learning, Telegram/security information, autonomous reasoning and agent/system functionality.
 
-This separation allows individual subsystems to evolve without making the reasoning layer responsible for physical-world truth.
+See `screenshots/` and `RazeOsHome.pptx` for the visual product overview.
 
-See:
+---
 
+## Why Buy Instead of Building It?
+
+Because the difficult part is not another Android screen.
+
+The difficult part is making hundreds of components, integrations and state flows cooperate over a long-running real household workflow.
+
+This project already contains the foundation for Android kiosk operation, IoT integrations, device state, cameras, room awareness, security, automation, reasoning, action execution, verification, learning, feedback and structured knowledge.
+
+> **You can build your own smart home operating system. The expensive part is making all the wires talk to each other. This one already does.**
+
+---
+
+## Public Showcase Contents
+
+- [Features](FEATURES.md)
 - [Architecture](ARCHITECTURE.md)
-- [Autonomous Reasoning](AUTONOMOUS_REASONING.md)
-- [Learning and Feedback](LEARNING_AND_FEEDBACK.md)
+- [Data and Knowledge](DATA_AND_KNOWLEDGE.md)
+- [Kiosk and UI](KIOSK_AND_UI.md)
+- [Technical Overview](TECHNICAL_OVERVIEW.md)
+- [Smart Home Integrations](SMART_HOME_INTEGRATIONS.md)
+- [Real-World Scenarios](REAL_WORLD_SCENARIOS.md)
+- [Buyer Due Diligence](BUYER_DUE_DILIGENCE.md)
+- [Security](SECURITY.md)
+- [Sale](SALE.md)
+- [Presentation](RazeOsHome.pptx)
+
+## Screenshots
+
+See `screenshots/` for current application captures.
 
 ---
 
-## Technology
+## Important Disclosure
 
-The project is an Android application built primarily around Kotlin and the Android ecosystem.
+RAZE OS Home is a real personal project developed for the creator's own household. It has not been commercially distributed. The showcase makes no claims about customers, revenue, market share or universal hardware compatibility.
 
-Major technologies and concepts include:
-
-- Kotlin
-- Android
-- Jetpack components
-- Coroutines
-- Room
-- SQLite
-- WebSocket communication
-- REST/API integrations
-- IoT device integrations
-- Camera-related processing
-- persistent event storage
-- structured knowledge storage
-
----
-
-## Intended Use
-
-Raze OS Home is suitable for:
-
-- smart home enthusiasts
-- IoT developers
-- Android developers
-- automation developers
-- kiosk applications
-- residential automation systems
-- AI-assisted home automation research
-- developers looking for an existing smart home reasoning foundation
-
----
-
-## Project Status
-
-Raze OS Home is a functioning real-world project developed and tested on Android kiosk hardware.
-
-The project has been developed iteratively around actual smart home devices, sensors, cameras, automation scenarios, and household workflows.
-
----
-
-## Source Code Availability
-
-This repository is a public showcase and technical documentation repository.
-
-The production source code is intentionally not included here.
-
-The complete project, including its production source code, is available as a separate acquisition.
-
----
-
-## Acquisition
-
-The complete project can be acquired as a full software project.
-
-The exact scope of the sale, source code, project files, documentation, and transfer terms are provided separately to interested buyers.
-
-For acquisition inquiries, contact the project owner through the marketplace where this project is listed.
+The value being offered is the existing engineering work, architecture, source code, integrations, real-world workflows and transferable project foundation.
