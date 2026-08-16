@@ -26,6 +26,16 @@ The intended transfer is the complete project rather than a license to use a sha
 
 For serious acquisition inquiries, the public showcase can be used for initial technical review. A deeper technical demonstration and source-code due diligence can be arranged privately.
 
+> **Public showcase. Private source. One exclusive buyer.**
+
+---
+
+## Public Repository & Rights Notice
+
+This repository is **not an open-source release** of the production software. No MIT, Apache, GPL, BSD or similar open-source license is granted through publication of this showcase.
+
+See [PROPRIETARY.md](PROPRIETARY.md) for the public-use boundary, intended exclusive transfer model and third-party rights disclosure.
+
 ---
 
 ## About the Developer
@@ -182,7 +192,7 @@ This project already contains the foundation for Android kiosk operation, IoT in
 
 ---
 
-## Public Showcase
+## Public Showcase & Buyer Documents
 
 | Document | Purpose |
 |---|---|
@@ -193,13 +203,19 @@ This project already contains the foundation for Android kiosk operation, IoT in
 | [Technical Overview](TECHNICAL_OVERVIEW.md) | Technology and implementation overview |
 | [Smart Home Integrations](SMART_HOME_INTEGRATIONS.md) | Integration-by-integration capabilities |
 | [Real-World Scenarios](REAL_WORLD_SCENARIOS.md) | Actual household workflows |
+| [Project History](PROJECT_HISTORY.md) | How the project evolved from a personal kiosk into a household operating system |
+| [Project Evolution](CHANGELOG.md) | Development phases and capability progression |
 | [Buyer Due Diligence](BUYER_DUE_DILIGENCE.md) | What a technical buyer should verify |
 | [Buyer FAQ](BUYER_FAQ.md) | Commercial and technical questions answered |
+| [What The Buyer Gets](WHAT_BUYER_GETS.md) | Intended acquisition scope and exclusions |
 | [Security](SECURITY.md) | Security architecture and public-repo boundaries |
+| [Proprietary Notice](PROPRIETARY.md) | Public-use boundary and intended exclusive transfer model |
 | [Visual Showcase](VISUAL_SHOWCASE.md) | Screenshot-by-screenshot visual guide |
 | [Sale](SALE.md) | Acquisition scope and transaction notes |
 | [Presentation](RazeOsHome.pptx) | Product presentation |
 | [Contact](CONTACT.md) | Acquisition contact and process |
+
+---
 
 ## Screenshots
 
