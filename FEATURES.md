@@ -1,154 +1,162 @@
-# Raze OS Home — Features
+# RAZE OS Home — Features
 
-## Smart Home Control
+## Product Concept
 
-Raze OS Home provides a dedicated interface for monitoring and controlling connected household devices.
+RAZE OS Home is a persistent Android smart-home operating system for a dedicated kiosk. It combines monitoring, control, room context, automation, security, reasoning, verification and learning in one application.
 
-The system is designed around persistent kiosk operation, allowing the Android device to function as a permanent household control panel.
+This document describes the feature surface represented by the current project rather than a generic future roadmap.
 
 ---
 
-## Device Monitoring
+## Smart Home Control
 
-Connected devices can expose their current state to the application.
+- eWeLink device integration
+- Sonoff device workflows
+- Relay and switch control
+- Real-time device state
+- Room/device association
+- Device availability information
+- Xiaomi integration
+- Dreame integration
 
-Examples include:
+The exact device capabilities depend on the connected hardware and configuration.
 
-- relays
-- lights
-- switches
-- sensors
-- cameras
-- household devices
+---
 
-Device state is used as part of the deterministic household state and can also become evidence available to the reasoning layer.
+## Cameras and Presence
+
+The system can use camera-related signals and dedicated sensors as household context.
+
+Implemented workflows include human/person detection and presence/occupancy-related reasoning.
+
+Where a stronger presence signal exists, it can be used as stronger evidence than weaker indirect signals. Rooms without the same hardware can use their available deterministic evidence instead.
 
 ---
 
 ## Room Awareness
 
-Household information is organized around rooms and household areas.
+The application can combine available room signals such as:
 
-The system can combine available signals to determine contextual room state.
-
-Depending on available devices, these signals can include:
-
-- motion
 - presence
+- motion
 - door state
-- camera information
-- device state
-- other deterministic household events
+- camera human detection
+- active device state
+- time/context
+- household events
 
-A room without a dedicated presence sensor can therefore use other available evidence, while rooms with stronger presence signals can benefit from those signals directly.
-
----
-
-## Autonomous Actions
-
-The reasoning architecture can identify situations where a supported action may be appropriate.
-
-Actions are executed through the existing device/action infrastructure rather than allowing the reasoning layer to directly manipulate arbitrary hardware.
+This allows the application to reason about a room instead of treating every device as an isolated object.
 
 ---
 
-## Action Verification
+## Autonomous Reasoning
 
-An important distinction is maintained between:
+The active reasoning implementation can progress through:
 
-- action requested
-- action executed
-- action verified
+1. Observe household context
+2. Gather available evidence
+3. Consult existing decision knowledge
+4. Evaluate supported action possibilities
+5. Execute an eligible action
+6. Verify the resulting state
+7. Persist the event
+8. Allow user review
+9. Learn from structured feedback
 
-A command being sent does not automatically mean that the physical result has been confirmed.
-
-The system can distinguish outcomes such as:
-
-- SUCCESS
-- VERIFICATION_FAILED
-- VERIFICATION_UNKNOWN
-
----
-
-## Evidence
-
-Reasoning decisions can retain the evidence used to reach the decision.
-
-This allows the user to inspect why an action was taken rather than receiving only a generic AI-generated explanation.
+This is the project's central differentiator.
 
 ---
 
-## Confidence
+## Real-World Autonomous Scenarios
 
-Reasoning events can include a confidence value associated with the decision.
+Examples implemented in the household include:
 
-Confidence is presented as supporting information rather than being treated as a replacement for deterministic sensor truth.
+- Entrance human detection triggering camera evidence and Telegram notification
+- Humidity combined with other device context to support automation decisions
+- Unoccupied room + active device becoming reasoning evidence
+- Dreame cleaning being delayed while relevant room doors are closed and reassessed later
+- Night-time exterior door events being retained as security context for later review
+- Guest/room context being used with prepared rules to control a room environment, including media scenarios
+
+---
+
+## Security
+
+The application includes working security workflows around:
+
+- Face recognition / authorization
+- Face verification for sensitive operations
+- Camera human detection
+- Telegram security alerts
+- Image/evidence delivery
+- Emergency countdown
+- Phone-call flow
+- Cancellation evidence
+- Security context
+
+---
+
+## Telegram
+
+Telegram is integrated as an operational notification channel rather than only a messaging screen.
+
+The system can use it for security notifications and evidence delivery, including camera-related events.
 
 ---
 
 ## Household Learning
 
-The Household Learning interface presents persisted household patterns and autonomous reasoning events.
+The Household Learning interface combines persisted household learning information with autonomous reasoning events.
 
-Users can review:
+Reasoning cards can expose:
 
-- recently learned information
-- confirmed decisions
-- contradicted decisions
-- verification results
+- what happened
+- why an action was taken
+- supporting evidence
 - confidence
-- previous confirmations
-
----
-
-## User Feedback
-
-Users can provide feedback about autonomous decisions.
-
-Correct feedback can confirm an associated decision.
-
-Incorrect feedback can request an explanation from the user.
-
-Natural-language feedback can then be processed by the existing feedback pipeline.
-
----
-
-## Knowledge
-
-The system maintains structured decision knowledge rather than simply incrementing a generic "correct" counter.
-
-Knowledge can retain relationships to:
-
-- room
-- action
-- trigger
-- context
-- reasoning task
-- correlation
+- execution result
+- verification result
 - provenance
+- feedback state
 
-This makes subsequent reasoning capable of considering previous user feedback without treating it as universal household truth.
+Historical cards are derived from persisted structured events rather than regenerated by an LLM every time the page is opened.
 
 ---
 
-## Persistent Events
+## Feedback and Learning
 
-Reasoning and household events are persisted so the UI can display historical decisions without requiring an LLM call every time the page is opened.
+Users can confirm a correct autonomous action or challenge an incorrect one.
+
+Incorrect feedback can request a natural-language explanation. The feedback is linked to the original reasoning context and processed into structured decision knowledge.
+
+The learning model is deliberately narrow in scope. A single user correction should not become an unrestricted global household rule or overwrite deterministic sensor truth.
+
+---
+
+## Voice Assistant
+
+The project includes voice-assistant functionality as part of the household interaction model. Voice requests can participate in the same device, room and prepared-rule environment rather than being isolated from the rest of the application.
 
 ---
 
 ## Kiosk Operation
 
-The application is designed for dedicated Android hardware.
+The Android application is designed for continuous operation on wall-mounted hardware.
 
-The kiosk interface can remain active as a permanent household dashboard while protecting the underlying Android environment from normal user interaction.
+It includes persistent navigation and screen-protection behavior intended for an unattended household display.
 
 ---
 
-## Performance
+## Scale
 
-The system is designed to avoid generating every UI card through a fresh AI request.
+The real household environment currently contains approximately **48 physical devices** across the integrated ecosystem.
 
-Persisted events and structured metadata can be mapped directly into UI representations.
+The production project contains roughly **600 source/project files** and was developed through sustained real-world use rather than a single prototype demonstration.
 
-This reduces unnecessary inference and network activity.
+---
+
+## Important Boundary
+
+The project does not claim that every feature works identically on every smart-home installation. Device-specific behavior depends on hardware, integration support, credentials, permissions and configuration.
+
+What is being offered is the complete existing implementation and its architecture, not a promise that arbitrary future hardware will work without adaptation.
