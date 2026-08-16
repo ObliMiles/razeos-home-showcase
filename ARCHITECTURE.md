@@ -1,428 +1,238 @@
-# Raze OS Home — Architecture
+# RAZE OS Home — Architecture
 
-## Architectural Principle
+## Architectural Goal
 
-Raze OS Home separates physical-world truth, reasoning, action execution, verification, knowledge, and presentation.
+RAZE OS Home is built as a household operating layer rather than a collection of unrelated device screens.
 
-The reasoning layer is intentionally not the authority for physical sensor state.
+The central design principle is a separation between **deterministic physical-world truth** and **autonomous reasoning**.
+
+Sensors and device integrations establish what the household is actually reporting. Reasoning can interpret that state, combine context, consult previously learned decision knowledge and select supported actions. The reasoning layer is not allowed to become the source of physical sensor truth.
+
+This boundary is one of the most important architectural properties of the project.
 
 ---
 
-## High-Level Architecture
+## High-Level Flow
 
 ```text
-Sensors / Devices / Cameras
-          │
-          ▼
-Deterministic Device & State Layer
-          │
-          ▼
-      Room / World State
-          │
-          ▼
-   Autonomous Reasoning
-          │
-     ┌────┴────┐
-     ▼         ▼
- Knowledge   Action Bridge
-     │         │
-     │         ▼
-     │     Device Action
-     │         │
-     │         ▼
-     │     Verification
-     │         │
-     └────┬────┘
-          ▼
-     Home Events
-          │
-          ▼
- Household Learning UI
-          │
-          ▼
-      User Feedback
-          │
-          ▼
-   Feedback Pipeline
-          │
-          ▼
- Decision Knowledge Store
-          │
-          ▼
- Future Reasoning
- 
- Deterministic Truth
-
-Physical household state is derived from deterministic integrations and state processing.
-
-The AI/reasoning layer does not directly replace this state.
-
-This prevents natural-language reasoning from becoming an uncontrolled source of sensor truth.
-
-Reasoning Layer
-
-The reasoning architecture evaluates:
-
-current household state
-available evidence
-policy constraints
-capabilities
-previous decision knowledge
-contextual information
-
-The result can be an action candidate with an explanation and evidence.
-
-Action Layer
-
-Actions are passed through the existing action infrastructure.
-
-The reasoning layer does not directly gain arbitrary access to devices.
-
-Verification
-
-After an action, the system can evaluate whether the expected resulting state was observed.
-
-This distinction allows the UI to communicate whether:
-
-the action succeeded
-the expected result was not observed
-the result could not be verified
-Event Persistence
-
-Reasoning events are persisted through the existing HomeEvent architecture.
-
-A reasoning event can contain structured metadata describing the action and its context.
-
-The UI can therefore reconstruct the reasoning card without invoking an LLM.
-
-Household Learning Integration
-
-The existing Household Learning page is reused as the user-facing surface for autonomous reasoning.
-
-Reasoning action events are mapped into the existing Household Learning insight model.
-
-No separate reasoning-history page is required.
-
-Feedback Architecture
-
-User feedback is connected to the original reasoning event through provenance information.
-
-Relevant identifiers can include:
-
-reasoningTaskId
-correlationId
-provenanceEventId
-roomKey
-actionKey
-
-This prevents feedback from being attached to an unrelated decision.
-
-Knowledge Scope
-
-Decision knowledge is intentionally scoped.
-
-A piece of feedback about one decision should not automatically become a global rule for the entire household.
-
-UI Principle
-
-The UI is a presentation layer over persisted state.
-
-It should not independently invent:
-
-device state
-sensor state
-capabilities
-reasoning evidence
-
-The UI displays information produced by the underlying system.
-
-
+Physical Devices / Sensors / Cameras
+                │
+                ▼
+      Device Integration Layer
+                │
+                ▼
+     Deterministic Household State
+                │
+        ┌───────┴────────┐
+        │                │
+        ▼                ▼
+   Automation       Reasoning Context
+                         │
+                         ▼
+                  Knowledge Lookup
+                         │
+                         ▼
+                Policy / Capability
+                    Evaluation
+                         │
+                         ▼
+                  Action Candidate
+                         │
+                         ▼
+                   Action Bridge
+                         │
+                         ▼
+                    Real Device
+                         │
+                         ▼
+                    Verification
+                         │
+                         ▼
+                    Home Event
+                         │
+                         ▼
+               Household Learning UI
+                         │
+                         ▼
+                  User Feedback
+                         │
+                         ▼
+             Structured Decision Knowledge
+                         │
+                         └──────► Future Reasoning
+```
 
 ---
 
+## Deterministic Household Truth
 
-# 4. `AUTONOMOUS_REASONING.md`
-
-
-```markdown
-# Autonomous Reasoning
-
-
-Raze OS Home includes an autonomous reasoning architecture designed to make context-aware decisions from available household evidence.
-
-
-## Reasoning Pipeline
-
-
-```text
-World State
-    ↓
-Evidence Collection
-    ↓
-Context Evaluation
-    ↓
-Knowledge Lookup
-    ↓
-Policy / Capability Checks
-    ↓
-Action Candidate
-    ↓
-Action Execution
-    ↓
-Verification
-    ↓
-Home Event
-    ↓
-Household Learning UI
-Evidence-Based Decisions
-
-A reasoning decision can reference multiple pieces of evidence.
-
-Examples may include:
-
-motion state
-presence state
-door state
-camera-derived signals
-time context
-existing device state
-previously recorded knowledge
-
-The reasoning explanation should describe the evidence actually available to the system.
-
-It must not invent sensor observations.
-
-AI Boundaries
-
-The AI layer is not:
-
-a sensor
-a presence authority
-a device capability registry
-an action authorization system
-a replacement for deterministic household state
-
-This boundary is intentional.
-
-Action Results
-
-Reasoning events distinguish between execution and verification.
-
-SUCCESS
-
-The action was executed and the expected result was verified.
-
-VERIFICATION_FAILED
-
-The action was executed, but the expected resulting state was not confirmed.
-
-VERIFICATION_UNKNOWN
-
-The action was sent or attempted, but the resulting state could not be reliably verified.
-
-Explainability
-
-Reasoning events can preserve:
-
-what the system decided to do
-why it decided to do it
-which evidence supported the decision
-confidence
-execution result
-verification result
-
-This information can later be displayed through the Household Learning interface.
-
-
-
----
-
-
-# 5. `LEARNING_AND_FEEDBACK.md`
-
-
-```markdown
-# Learning and Feedback
-
-
-Raze OS Home provides a structured feedback mechanism for autonomous decisions.
-
-
-## Correct Feedback
-
-
-When the user confirms that an autonomous action was correct, the decision knowledge associated with that action can be confirmed.
-
-
-Repeated confirmation increases the confirmation information associated with the same scoped knowledge instead of blindly creating duplicate records.
-
-
----
-
-
-## Incorrect Feedback
-
-
-When the user marks an action as incorrect, the system can request an explanation.
-
-
-Example:
-
-
-> My mother was on the balcony, not in the room.
-
-
-The feedback is associated with the original reasoning context before entering the structured feedback pipeline.
-
-
----
-
-
-## Natural Language Feedback
-
-
-The feedback pipeline can extract structured information from natural-language user explanations.
-
-
-Possible structured information includes:
-
-
-- wrong aspect
-- user claim
-- room
-- reason
-- scope
-- previous decision context
-
-
-The exact interpretation depends on the feedback processing pipeline and available context.
-
-
----
-
-
-## Knowledge Lifecycle
-
-
-Knowledge can progress through:
-
-
-```text
-LEARNED
-   ↓
-CONFIRMED
-
-
-LEARNED
-   ↓
-CONTRADICTED
-
-
-CONFIRMED / CONTRADICTED
-   ↓
-DEPRECATED
-Narrow Scope
-
-Feedback is intentionally scoped to the relevant reasoning context.
-
-For example:
-
-I was on the balcony.
-
-does not automatically become:
-
-The living room is always empty whenever I am on the balcony.
-
-The system should retain contextual relationships instead of creating unrestricted household rules.
-
-Future Reasoning
-
-Previously recorded decision knowledge can be queried by subsequent reasoning sessions.
-
-The knowledge is used as contextual information rather than replacing deterministic sensor truth.
-
-
-
----
-
-
-# 6. `SMART_HOME_INTEGRATIONS.md`
-
-
-Burada **gerçekten kullandığın entegrasyonları** anlatacağız; olmayanı eklemeyeceğiz.
-
-
-```markdown
-# Smart Home Integrations
-
-
-Raze OS Home is designed to operate as a central Android-based interface for connected household devices.
-
-
-## eWeLink
-
-
-The application integrates with eWeLink-connected household devices and can process device events such as relay, motion, door, and presence-related signals depending on the device.
-
+The application maintains a deterministic representation of available household state.
 
 Examples include:
 
+- relay state
+- switch state
+- motion state
+- door state
+- presence / occupancy signals
+- camera-derived human detection
+- device availability
+- room association
+- other integration-specific state
 
-- smart relays
-- lights
-- motion sensors
-- door sensors
-- presence sensors
-- cameras
+The UI and reasoning systems consume this information rather than inventing it.
 
-
----
-
-
-## Xiaomi
-
-
-Xiaomi devices can be integrated into the household environment and exposed through the dedicated Xiaomi interface.
-
-
-The exact available capabilities depend on the connected Xiaomi hardware and integration configuration.
-
+A reasoning explanation may describe evidence from the state, but it does not get to redefine what a physical sensor reported.
 
 ---
 
+## Device Integration
 
-## Camera
+The real household implementation includes integrations and workflows around eWeLink/Sonoff devices, cameras and RTSP-related processing, Xiaomi, Dreame, Telegram and other application services.
 
+The integration layer is responsible for translating external device events and capabilities into application-level state and actions.
 
-Camera-related information can contribute to household context and presence detection.
-
-
-Camera-derived signals remain distinct from deterministic sensor state.
-
+The production environment currently contains approximately **48 physical devices**.
 
 ---
 
+## Room and Context Layer
 
-## Device State
+Household information is associated with rooms and areas so that device state can become contextual information.
 
+For example, a room can be evaluated using combinations of:
 
-Device state can be used for:
+- occupancy/presence evidence
+- motion
+- door state
+- camera evidence
+- active devices
+- time context
+- other household events
 
-
-- UI status
-- room context
-- automation
-- reasoning evidence
-- action verification
-
+Rooms do not all have identical hardware. Stronger evidence can be used where stronger sensors are available, while other rooms can fall back to their available deterministic signals.
 
 ---
 
+## Autonomous Reasoning
 
-## Hardware-Dependent Capabilities
+The current reasoning architecture has progressed beyond generating explanations alone. In the active implementation it can participate in:
 
+1. Context observation
+2. Evidence evaluation
+3. Existing decision-knowledge lookup
+4. Action selection within available capabilities
+5. Real action execution
+6. Verification of the expected outcome
+7. Event persistence
+8. User review and feedback
+9. Structured learning for future reasoning
 
-The exact behavior of the system depends on the connected devices.
+This is the intended **reasoning + action + verification + learning** loop.
 
+---
 
-Raze OS Home does not assume that every room has identical sensors or capabilities.
+## Action Boundary
+
+The reasoning layer does not receive unrestricted arbitrary device access.
+
+A reasoning decision is routed through the application's existing action infrastructure and the capabilities/policies already available to the system.
+
+This matters because an LLM or reasoning component should not be treated as a direct hardware authorization layer.
+
+---
+
+## Verification
+
+Execution and verification are separate concepts.
+
+A command being issued does not automatically prove that the physical-world result occurred.
+
+Reasoning events can preserve outcome information such as:
+
+- successful execution and verification
+- execution followed by failed verification
+- execution where the expected result could not be reliably verified
+
+This distinction is surfaced to the learning/reasoning history rather than being hidden behind a generic success message.
+
+---
+
+## Event Persistence
+
+Household and reasoning events are persisted through the application's event architecture.
+
+Reasoning action events can retain structured metadata including:
+
+- what the system did
+- why it did it
+- supporting evidence
+- result
+- confidence
+- room
+- action key
+- correlation/provenance
+- timestamp
+
+The Household Learning interface can therefore reconstruct reasoning cards from persisted data without asking an LLM to regenerate historical cards every time the page opens.
+
+---
+
+## Learning and Feedback
+
+The existing Household Learning surface is reused for autonomous reasoning events.
+
+A user can confirm a decision or mark it incorrect. Incorrect feedback can request a natural-language explanation and associate that explanation with the original reasoning context.
+
+The resulting structured knowledge remains scoped to the relevant decision context instead of becoming an unrestricted household rule.
+
+Typical provenance dimensions include:
+
+- room
+- action
+- reasoning task
+- correlation
+- provenance event
+- timestamp
+
+---
+
+## Knowledge Boundary
+
+Decision knowledge influences future reasoning, but it does not replace deterministic sensor truth.
+
+For example, a learned preference about an action in one room should not be allowed to rewrite a sensor's current state.
+
+This gives the system two different concepts:
+
+```text
+What the house is reporting now
+        ≠
+What the system has learned about decisions
+```
+
+Both can be useful, but they have different authority.
+
+---
+
+## UI Principle
+
+The UI is a presentation layer over persisted application state.
+
+It should display:
+
+- actual device state
+- actual room context
+- persisted reasoning events
+- verification outcomes
+- structured feedback
+
+It should not independently invent device capabilities, sensor state or reasoning evidence.
+
+---
+
+## Project Scale
+
+The production Android project is a large codebase of roughly **600 source/project files**. Its architecture has been developed incrementally around an actual household environment and long-running device workflows.
+
+The public showcase intentionally documents the architecture without publishing the production source tree or credentials.
